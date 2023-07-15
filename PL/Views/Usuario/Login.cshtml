@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/Login.css" />
+	<script type="text/javascript" src="/js/java.js"></script>
+</head>
+<div class="wrapper">
+	<div class="container">
+		<h1>Welcome</h1>
+		 @using (Html.BeginForm("Login", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+		<form class="form">
+			<input type="text" placeholder="Username" name="Username">
+			<input type="password" placeholder="Password" name="Password">
+			<button type="submit" id="login-button">Login</button>
+		</form>
+		}
+	</div>
+
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+</html>

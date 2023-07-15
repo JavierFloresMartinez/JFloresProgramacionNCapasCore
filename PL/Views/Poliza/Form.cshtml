@@ -1,0 +1,70 @@
+﻿@model ML.Poliza
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Formulario</h2>
+
+<div class="row">
+
+    <div class="col-md-12">
+
+        @using (Html.BeginForm("Form", "Poliza", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-md-3" style="display:none">
+                    @Html.LabelFor(model => model.IdPoliza, new { @class = "visually-hidden" })
+
+                    @Html.TextBoxFor(model => model.IdPoliza, new { @class = "visually-hidden form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Nombre)
+
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+
+                    @Html.ValidationMessageFor(model => model.Nombre)
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.SubPoliza)
+                    @Html.DropDownListFor(model => model.SubPoliza.IdSubPoliza, new SelectList(Model.SubPoliza.SubPolizas, "IdSubPoliza", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model =>  model.SubPoliza.IdSubPoliza)
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.NumeroPoliza)
+
+                    @Html.TextBoxFor(model => model.NumeroPoliza, new { @class = "form-control", @id = "txtNombre" })
+
+                    @Html.ValidationMessageFor(model => model.NumeroPoliza)
+                </div>
+
+                <div class="col">
+                    @Html.LabelFor(model => model.Usuario)
+                    @Html.DropDownListFor(model => model.Usuario.IdUsuario, new SelectList(Model.Usuario.Usuarios, "IdUsuario", "NombreCompleto"), "Selecciona una opción", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.Usuario.IdUsuario)
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col">
+                    <input type="submit" value="Guardar" class="btn btn-success" />
+
+                    @Html.ActionLink("Regresar", "GetAll", "Poliza", htmlAttributes: new { @class = "btn btn-danger" })
+                </div>
+
+            </div>
+
+
+        }
+
+    </div>
+
+</div>
+

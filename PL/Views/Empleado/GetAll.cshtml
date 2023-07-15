@@ -1,0 +1,115 @@
+﻿@model ML.Empleado
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class=row>
+        <div class="text-center">
+            <h2>Empleados</h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione un Empleado para editarlo o + para agregar...</h5>
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-12">
+    @using (Html.BeginForm("GetAll", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="container">
+            <div style="float:right;">
+                @Html.ActionLink("Agregar", "Form", "Form", htmlAttributes: new { @class = "btn btn-success bi bi-person-plus-fill" })
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </span>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre",@placeholder = "Nombre", @onkeypress="SoloLetras(event, 'txtNombre', 'lblNombre')"})
+
+                    @Html.ValidationMessageFor(model => model.Nombre,null, new{@class = "text-danger"})
+                    @Html.Label(null, "", new {@id = "lblNombre"})
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-circle-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @placeholder = "Apellido Paterno", @onkeypress="SoloLetras(event, 'txtApellidoPaterno', 'lblApellidoPaterno')" })
+
+                    @Html.ValidationMessageFor(model => model.ApellidoPaterno,null, new{@class = "text-danger"})
+                    @Html.Label(null,"", new{ @id = "lblApellidoPaterno"})
+                </div>
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-circle-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtNombre", @placeholder = "Apellido Materno" })
+
+                    @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container">
+
+            <div class="col">
+                <input type="submit" value="Buscar" class="btn btn-info" />
+
+            </div>
+        </div>
+    }
+</div>
+<br />
+
+<div class="row">
+        @foreach (ML.Empleado empleado in Model.Empleados)
+        {
+            <div class="col-md-3 mt-3 pt-3">
+               <div class="card text-white bg-dark border-success mb-3 bor" style="width: 18rem;">
+                   @if (empleado.Foto == null)
+                    {
+                          <p class="card-title" style="text-align: center; vertical-align: middle;"><img src="/Images/guest-user.png" style="width:70px ; height:70px" /></p>
+                    }
+                    else
+                    {
+                          <p class="card-text" style="text-align: center; vertical-align: middle;"><img id="Img" src="data:image/*;base64,@empleado.Foto" style="width:70px ; height:70px" /></p>
+              
+                    }
+                <h5 class="card-title" style="text-align: center; vertical-align: middle;">@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</h5>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Numero Empleado: @empleado.NumeroEmpleado</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">RFC: @empleado.Rfc</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">NSS: @empleado.Nss</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Email: @empleado.Email</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Telefono: @empleado.Telefono</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Fecha Nacimiento: @empleado.FechaNacimiento</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Empresa: @empleado.Empresa.Nombre</p>
+                <p class="card-text" style="text-align: center; vertical-align: middle;">Fecha Ingreso: @empleado.FechaIngreso</p>
+                <p style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon-edit" href="@Url.Action("Form", "Empleado", new { numeroEmpleado = empleado.NumeroEmpleado  })"><i class="bi bi-pencil-square" style="color: darkorange"></i></a></p>
+                <p style="text-align: center; vertical-align: middle;"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Empleado", new { numeroEmpleado= empleado.NumeroEmpleado})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a></p>
+
+            </div>
+        </div>
+
+        }
+</div>
+
+

@@ -1,0 +1,194 @@
+﻿@model ML.Empleado
+@{
+    ViewData["Title"] = "Form";
+}
+
+<h2>Formulario Empleados</h2>
+
+<div class="row">
+
+    <div class="col-md-12">
+
+        @using (Html.BeginForm("Form", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-3">
+                    @Html.LabelFor(model => model.NumeroEmpleado)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.NumeroEmpleado,  new { @class = "form-control", @id = "txtNombre" })
+                </div>
+                </div>
+                <div class="col-3">
+
+                    @Html.LabelFor(model => model.Rfc)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.Rfc, new { @class = "form-control", @id = "txtNombre" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Rfc)
+                </div>
+
+                <div class="col-3">
+                    @Html.LabelFor(model => model.Nombre)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.Nombre,  new { @class = "form-control", @id = "txtNombre" })
+                </div>
+                </div>
+                <div class="col-3">
+                    @Html.LabelFor(model => model.ApellidoPaterno)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtNombre" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    @Html.LabelFor(model => model.ApellidoMaterno)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoMaterno,  new { @class = "form-control", @id = "txtNombre" })
+                     </div>
+                </div>
+                <div class="col-3">
+                    @Html.LabelFor(model => model.Email)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "txtNombre" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+                <div class="col-3">
+                    @Html.LabelFor(model => model.Telefono)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.Telefono,  new { @class = "form-control", @id = "txtNombre" })
+                </div>
+                </div>
+                <div class="col-3">
+                    @Html.LabelFor(model => model.Nss)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+                    @Html.TextBoxFor(model => model.Nss, new { @class = "form-control", @id = "txtNombre" })
+                     </div>
+                    @Html.ValidationMessageFor(model => model.Nss)
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    @Html.LabelFor(model => model.FechaNacimiento)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
+
+                    @Html.TextBoxFor(model => model.FechaNacimiento,  new { @class = "form-control", @id = "txtFechaNacimiento" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Foto)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user-plus"></i></span>
+                        <input id="inpImagen" type='file' class="form-control" name="inpImagen" onchange="validateFile(this), visualizarImagen(this);  " />
+                    </div>
+                    @if (Model.Foto == null)
+                    {
+                        <img id="Img" src="/Images/guest-user.png" style="width:250px ; height:250px" />
+                    }
+                    else
+                    {
+                        <img id="Img" src="data:image/*;base64,@Model.Foto " style="width:250px ; height:250px" />
+                    }
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Empresa)
+
+
+                    @Html.DropDownListFor(model => model.Empresa.IdEmpresa, new SelectList(Model.Empresa.Empresas, "IdEmpresa", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.Empresa.IdEmpresa)
+
+                </div>
+
+                <div class="col" style="display:none">
+                    @Html.LabelFor(model => model.Action, new { @class = "visually-hidden" })
+
+                    @Html.TextBoxFor(model => model.Action, new { @class = "visually-hidden form-control" })
+
+                </div>
+                @Html.HiddenFor(model => model.Foto)
+            </div>
+
+            <br />
+            <br />
+            <div class="row">
+                <div class="col">
+                    <input type="submit" value="Guardar" class="btn btn-success" />
+
+                    @Html.ActionLink("Regresar", "GetAll", "Empleado", htmlAttributes: new { @class = "btn btn-danger" })
+                </div>
+
+            </div>
+
+
+        }
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtFechaNacimiento").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:2005"
+        });
+    });
+
+
+
+        function validateFile() {
+            var allowedExtension = ['jpeg', 'jpg', 'png'];
+            var fileExtension = document.getElementById('inpImagen').value.split('.').pop().toLowerCase();
+            var isValidFile = false;
+            for (var index in allowedExtension) {
+                if (fileExtension === allowedExtension[index]) {
+                    isValidFile = true;
+                    break;
+                }
+            }
+            if (!isValidFile) {
+                alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+                document.getElementById('inpImagen').value = ""
+            }
+            return isValidFile;
+        }
+        function visualizarImagen(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#Img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
+}

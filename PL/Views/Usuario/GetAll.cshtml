@@ -1,0 +1,180 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-left:auto;margin-right:auto;">
+    <div class=row>
+        <div class="text-center">
+            <h2>Usuario</h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione un Usuario para editarlo o para agregar...</h5>
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="container">
+                <div style="float:right;">
+                    @Html.ActionLink("Agregar", "Form", "Form", htmlAttributes: new { @class = "btn btn-success bi bi-person-plus-fill" })
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </span>
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre",@placeholder = "Nombre", @onkeypress="SoloLetras(event, 'txtNombre', 'lblNombre')"})
+
+                        @Html.ValidationMessageFor(model => model.Nombre,null, new{@class = "text-danger"})
+                        @Html.Label(null, "", new {@id = "lblNombre"})
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                   
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-circle-user"></i></span>
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @placeholder = "Apellido Paterno", @onkeypress="SoloLetras(event, 'txtApellidoPaterno', 'lblApellidoPaterno')" })
+
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno,null, new{@class = "text-danger"})
+                        @Html.Label(null,"", new{ @id = "lblApellidoPaterno"})
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                   
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-circle-user"></i></span>
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtNombre", @placeholder = "Apellido Materno" })
+
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container">
+
+                <div class="col">
+                    <input type="submit" value="Buscar" class="btn btn-info" />
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<table class ="table table-dark table-hover table-bordered table-responsive" >
+    <thead>
+        <tr class="table-secondary" align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;" ">
+            <td>Editar</td>
+            <td style="display :none;">id</td>
+            <td>Nombre</td>
+            <td>Fecha de Nacimiento</td>
+            <td>Correo Electronico</td>
+            <td>Matricula</td>
+            <td>Rol</td>
+            <td>Username</td>
+            <td>Password</td>
+            <td>Sexo</td>
+            <td>Telefono</td>
+            <td>Celular</td>
+            <td>CURP</td>
+            <td>Direccion</td>
+            <td>Imagen</td>
+            <td>Estatus</td>
+            <td>Eliminar</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ML.Usuario usuario in Model.Usuarios)
+        {
+        <tr align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon-edit" href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario  })"><i class="bi bi-pencil-square" style="color: darkorange"></i></a></td>
+            <td style="display :none;">@usuario.IdUsuario </td>
+            <td>@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</td>
+            <td>@usuario.FechaNacimiento</td>
+            <td>@usuario.CorreoElectronico</td>
+            <td>@usuario.Matricula</td>
+            <td>@usuario.Rol.Nombre</td>
+            <td>@usuario.Username</td>
+            <td>@usuario.Password</td>
+            <td>@usuario.Sexo</td>
+            <td>@usuario.Telefono</td>
+            <td>@usuario.Celular</td>
+            <td>@usuario.Curp</td>
+            <td>@usuario.Direccion.Calle @usuario.Direccion.NumeroInterior, @usuario.Direccion.NumeroExterior @usuario.Direccion.Colonia.Nombre @usuario.Direccion.Colonia.Municipio.Nombre @usuario.Direccion.Colonia.Municipio.Estado.Nombre</td>
+            @if (usuario.Imagen == null)
+            {
+            <td class="text-center"><img src="/Images/guest-user.png" width= 70px height= 70px /></td>
+            }
+            else
+            {
+            <td> <img id="Img" src="data:image/*;base64,@usuario.Imagen" style="width:70px ; height:70px" /></td>
+            @*<img id="Img" src="data:image/*;base64,@Convert.FromBase64String(Model.Imagen)" style="width:250px ; height:250px" />*@
+            }
+
+            @if (usuario.Estatus)
+            {
+            <td style="text-align: center; vertical-align: middle;">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked onchange="ChangeStatus(@usuario.IdUsuario, this)">
+                </div>
+            </td>
+            }
+            else
+            {
+            <td style="text-align: center; vertical-align: middle;">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="ChangeStatus(@usuario.IdUsuario, this);">
+                </div>
+            </td>
+            }
+
+            <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Usuario", new { IdUsuario= usuario.IdUsuario})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a></td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+
+ @section Scripts {
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.material.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+
+<script type="text/javascript">
+    function ChangeStatus(idAlumno, e) {
+        var status = e.checked
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CambiarStatus")',
+            dataType: 'json',
+            data: { idAlumno, status },
+            success: {},
+            error: function (ex) {
+                alert('Failed.' + ex);
+            }
+        });
+    }
+</script>
+}

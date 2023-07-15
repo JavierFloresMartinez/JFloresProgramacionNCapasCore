@@ -1,0 +1,73 @@
+﻿@model ML.Empleado
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class=row>
+        <div class="text-center">
+            <h2>Empleados</h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione un Empleado para editarlo o + para agregar...</h5>
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+<table class="table table-dark table-hover table-bordered table-responsive">
+    <thead>
+        <tr class="table-secondary" align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;" ">
+            <td>Dependiente</td>
+            <td style="display :none;">id</td>
+            <td>Nombre</td>
+            <td>Numero Empleado</td>
+            <td>RFC</td>
+            <td>NSS</td>
+            <td>Correo Electronico</td>
+            <td>Telefono</td>
+            <td>Fecha De Nacimiento</td>
+            <td>Empresa</td>
+            <td>Fecha De Ingreso</td>
+            <td>Foto</td>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ML.Empleado empleado in Model.Empleados)
+        {
+        <tr align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <td style="text-align: center; vertical-align: middle;"><a class="btn  btn-primary glyphicon-edit" href="@Url.Action("GetAllDependiente", "EmpleadoDependiente", new { numeroEmpleado = empleado.NumeroEmpleado  })"><i class="bi bi-arrow-bar-up"></i></a></td>
+            <td>@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</td>
+            <td>@empleado.NumeroEmpleado</td>
+            <td>@empleado.Rfc</td>
+            <td>@empleado.Nss</td>
+            <td>@empleado.Email</td>
+            <td>@empleado.Telefono</td>
+            <td>@empleado.FechaNacimiento</td>
+            <td>@empleado.Empresa.Nombre</td>
+            <td>@empleado.FechaIngreso</td>
+            @if (empleado.Foto == null)
+            {
+            <td class="text-center"><img src="/Images/guest-user.png" width=70px height=70px /></td>
+            }
+            else
+            {
+            <td> <img id="Img" src="data:image/*;base64,@empleado.Foto" style="width:70px ; height:70px" /></td>
+            @*<img id="Img" src="data:image/*;base64,@Convert.FromBase64String(Model.Imagen)" style="width:250px ; height:250px" />*@
+            }
+
+        </tr>
+        }
+
+    </tbody>
+</table>

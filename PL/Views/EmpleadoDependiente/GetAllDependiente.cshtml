@@ -1,0 +1,231 @@
+﻿@model ML.Dependiente
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class=row>
+        <div class="text-center">
+            <h2>Dependientes De : @Model.Empleado.Nombre @Model.Empleado.ApellidoPaterno @Model.Empleado.ApellidoMaterno</h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione un Dependiente para editarlo o + para agregar...</h5>
+            <hr />
+        </div>
+    </div>
+
+</div>
+<div style="float:right;">
+   @* <td style="text-align: center; vertical-align: middle;"><a class="btn btn-success glyphicon-edit" href="@Url.Action("Form", "EmpleadoDependiente", new { numeroEmpleado = Model.Empleado.NumeroEmpleado })"><i class="bi bi-plus-circle" style="color: ivory"></i></a></td>*@
+    <button class="btn btn-success glyphicon-edith" onclick="MostrarModal()"><i class="bi bi-plus-circle" style="color: ivory"></i></button>
+
+
+
+</div>
+<br />
+
+<table class="table table-dark table-hover table-bordered table-responsive">
+    <thead>
+        <tr class="table-secondary" align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;" ">
+            <td>Editar</td>
+            <td style="display :none;">id</td>
+            <td>Nombre</td>
+            <td>Fecha De Nacimiento</td>
+            <td>Estado Civil</td>
+            <td>Genero</td>
+            <td>Telefono</td>
+            <td>RFC</td>
+            <td>Tipo De Dependencia</td>
+            <td>Elimar</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ML.Dependiente dependiente in Model.Dependientes)
+        {
+        <tr align="center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+           @* <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon-edit" href="@Url.Action("Form", "EmpleadoDependiente", new { idDependiente = dependiente.IdDependiente  })"></a>*@
+            <td style="text-align: center; vertical-align: middle;"><button class="btn btn-warning glyphicon-edith" onclick="MostrarModal()" id="btnUpdate"><i class="bi bi-pencil-square" style="color: ivory"></i></td>
+
+      @*  </button>
+*@
+            <td style="display :none;">@dependiente.IdDependiente </td>
+            <td>@dependiente.Nombre @dependiente.ApellidoPaterno @dependiente.ApellidoMaterno</td>
+            <td>@dependiente.FechaNacimiento</td>
+            <td>@dependiente.EstadoCivil</td>
+            <td>@dependiente.Genero</td>
+            <td>@dependiente.Telefono</td>
+            <td>@dependiente.RFC</td>
+            <td>@dependiente.DependienteTipo.Nombre</td>
+            <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "EmpleadoDependiente", new { idPoliza = dependiente.IdDependiente})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a></td>
+          
+
+        </tr>
+        }
+    </tbody>
+</table>
+ @Html.ActionLink("Regresar", "GetAll", "EmpleadoDependiente", htmlAttributes: new { @class = "btn btn-danger" })
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalValidacion">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Formulario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                                    @using (Html.BeginForm("Form", "EmpleadoDependiente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                    
+                            <div class="row">
+                            <div class="col-md-3" style="display:none">
+                                @Html.LabelFor(model => model.IdDependiente, new { @class = "visually-hidden" })
+
+                                @Html.TextBoxFor(model => model.IdDependiente, new { @class = "visually-hidden form-control" })
+                                </div>
+                            <div class="col-md-3" style="display:none">
+                                @Html.LabelFor(model => model.Empleado.NumeroEmpleado, new { @class = "visually-hidden" })
+
+                                @Html.TextBoxFor(model => model.Empleado.NumeroEmpleado, new { @class = "visually-hidden form-control" })
+                            </div>
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.Nombre)
+
+                                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.Nombre)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.ApellidoPaterno)
+
+                                                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.ApellidoMaterno)
+
+                                                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.Telefono)
+
+                                                @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.Telefono)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.FechaNacimiento)
+
+                                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", @id = "txtFechaNacimiento" })
+
+                                                @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.EstadoCivil)
+
+                                                @Html.TextBoxFor(model => model.EstadoCivil, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.EstadoCivil)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.Genero)
+
+                                                @Html.TextBoxFor(model => model.Genero, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.Genero)
+                                </div>
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.RFC)
+
+                                                @Html.TextBoxFor(model => model.RFC, new { @class = "form-control", @id = "txtNombre" })
+
+                                                @Html.ValidationMessageFor(model => model.RFC)
+                                </div>
+
+                                <div class="col-md-3">
+                                                @Html.LabelFor(model => model.DependienteTipo)
+
+
+                                                @Html.DropDownListFor(model => model.DependienteTipo.IdDependienteTipo, new SelectList(Model.DependienteTipo.DependienteTipos, "IdDependienteTipo", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+
+                                                @Html.ValidationMessageFor(model => model.DependienteTipo.IdDependienteTipo)
+
+                                </div>
+
+                            </div>
+                            <br />
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" value="Guardar" class="btn btn-success" />
+                            </div>
+                        </div>
+                            <br />
+                                    }
+                        <button class=" btn btn-danger" onclick="CerrarModal()">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://bootboxjs.com/bootbox.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<script>
+    function MostrarModal(){
+   
+            $('#modalValidacion').modal('show');
+    }
+   function CerrarModal(){
+          $('#modalValidacion').modal('hide');
+    }
+
+  
+    
+</script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script>
+        $(document).ready(function () {
+            $("#txtFechaNacimiento").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1970:2005"
+            });
+        });
+</script>
+   
+
+
+}
